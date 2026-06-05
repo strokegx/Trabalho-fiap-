@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OrbitaSafe | Simulador de Cenários</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/animacoes.css">
+  <link rel="stylesheet" href="../assets/css/responsivo.css">
+  <style>
+    /* ── ESTILOS ESPECÍFICOS DA PÁGINA ── */
+    .conteudo-simulador {
+      padding: 0 8% 100px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .simulador-grade {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    /* Formulário */
+    .formulario-simulador {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .campo-grupo {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .campo-rotulo {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--cor-texto-suave);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .campo-simulador select,
+    .campo-simulador input {
+      width: 100%;
+      padding: 14px 18px;
+      background: rgba(8, 15, 34, 0.8);
+      border: 1.5px solid var(--cor-borda);
+      border-radius: var(--raio);
+      color: var(--cor-texto);
+      font-family: var(--fonte-corpo);
+      font-size: 0.95rem;
+      transition: var(--transicao);
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .campo-simulador select:focus,
+    .campo-simulador input:focus {
+      outline: none;
+      border-color: var(--cor-azul);
+      box-shadow: 0 0 0 3px var(--cor-azul-glow);
+    }
+
+    .campo-simulador select option {
+      background: #0a1530;
+    }
+
+    .wrapper-select {
+      position: relative;
+    }
+
+    .wrapper-select::after {
+      content: '▾';
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--cor-azul);
+      pointer-events: none;
+      font-size: 0.9rem;
+    }
+
+    /* Botão simular */
+    #btn-simular {
+      width: 100%;
+      padding: 16px;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    #btn-simular:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Resultado */
+    .resultado-conteudo {
+      animation: aparecer 0.5s ease forwards;
+    }
+
+    .resultado-cabecalho {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--cor-borda);
+    }
+
+    .resultado-cabecalho h3 {
+      font-family: var(--fonte-titulo);
+      font-size: 1.3rem;
+      color: var(--cor-texto);
+      margin-bottom: 8px;
+    }
+
+    .resultado-descricao {
+      color: var(--cor-texto-suave);
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+      line-height: 1.7;
+    }
+
+    .grade-resultado {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .item-resultado {
+      background: rgba(45,140,240,0.06);
+      border: 1px solid var(--cor-borda);
+      border-radius: var(--raio);
+      padding: 16px;
+      text-align: center;
+    }
+
+    .item-resultado-valor {
+      display: block;
+      font-family: var(--fonte-titulo);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--cor-azul-claro);
+      margin-bottom: 4px;
+    }
+
+    .item-resultado-rotulo {
+      font-size: 0.78rem;
+      color: var(--cor-texto-suave);
+    }
+
+    .resultado-metricas {
+      margin-bottom: 24px;
+    }
+
+    .resultado-acoes {
+      background: rgba(255,184,0,0.06);
+      border: 1px solid rgba(255,184,0,0.2);
+      border-radius: var(--raio);
+      padding: 20px;
+    }
+
+    .resultado-acoes h4 {
+      font-weight: 600;
+      margin-bottom: 14px;
+      color: var(--cor-amarelo);
+      font-size: 0.9rem;
+    }
+
+    .resultado-acoes ol {
+      padding-left: 20px;
+    }
+
+    .resultado-acoes li {
+      font-size: 0.88rem;
+      color: var(--cor-texto-suave);
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+
+    /* Placeholder resultado */
+    .placeholder-resultado {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .placeholder-resultado span {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    .placeholder-resultado p {
+      color: var(--cor-texto-suave);
+      font-size: 0.95rem;
+    }
+
+    /* Histórico */
+    .item-historico {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--cor-borda);
+    }
+
+    .item-historico:last-child { border-bottom: none; }
+
+    .historico-emoji { font-size: 1.5rem; }
+
+    .historico-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .historico-info strong {
+      font-size: 0.9rem;
+    }
+
+    .historico-numeros {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+      font-size: 0.8rem;
+      color: var(--cor-texto-suave);
+    }
+
+    .historico-hora {
+      font-size: 0.75rem;
+      color: var(--cor-texto-suave);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loader" class="loader">
+    <span class="loader-logo">🛰 ORBITASAFE</span>
+    <div class="loader-orbita"></div>
+    <span class="loader-texto">Carregando modelos preditivos...</span>
+  </div>
+
+  <canvas id="canvas-estrelas"></canvas>
+
+  <header class="cabecalho">
+    <a href="../index.html" class="logo">
+      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="16" cy="16" r="5"/>
+        <ellipse cx="16" cy="16" rx="14" ry="6" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        <ellipse cx="16" cy="16" rx="14" ry="6" fill="none" stroke="currentColor" stroke-width="1.8" transform="rotate(60 16 16)"/>
+        <ellipse cx="16" cy="16" rx="14" ry="6" fill="none" stroke="currentColor" stroke-width="1.8" transform="rotate(120 16 16)"/>
+      </svg>
+      OrbitaSafe
+    </a>
+
+    <nav id="menu-nav" class="menu">
+      <a href="../index.html">Início</a>
+      <a href="monitoramento.html">Monitoramento</a>
+      <a href="simulador.html" class="ativo">Simulador</a>
+      <a href="dashboard.html">Dashboard</a>
+    </nav>
+
+    <button id="menu-hamburguer" class="menu-hamburguer" aria-label="Abrir menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main>
+
+    <section class="hero-interno">
+      <div class="badge">
+        <span class="badge-ponto"></span>
+        Modelos Preditivos Ativos
+      </div>
+      <h1>Simulador de Cenários de Risco</h1>
+      <p>Avalie o impacto potencial de eventos climáticos extremos em diferentes regiões e populações. Configure os parâmetros e obtenha uma análise detalhada com recomendações de ação.</p>
+    </section>
+
+    <div class="conteudo-simulador">
+      <div class="simulador-grade">
+
+        <!-- Formulário -->
+        <div>
+          <div class="card-glass">
+            <h3 style="font-family:var(--fonte-titulo);font-size:1rem;color:var(--cor-azul-claro);margin-bottom:24px;letter-spacing:0.05em">⚙️ Parâmetros da Simulação</h3>
+
+            <form class="formulario-simulador" onsubmit="return false">
+
+              <div class="campo-grupo">
+                <label class="campo-rotulo" for="tipo-evento">Tipo de Evento</label>
+                <div class="wrapper-select campo-simulador">
+                  <select id="tipo-evento">
+                    <option value="">Selecione o evento...</option>
+                    <option value="enchente">🌊 Enchente</option>
+                    <option value="seca">☀️ Seca</option>
+                    <option value="queimada">🔥 Queimada</option>
+                    <option value="deslizamento">⛰️ Deslizamento</option>
+                    <option value="tempestade">⚡ Tempestade Severa</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="campo-grupo">
+                <label class="campo-rotulo" for="intensidade-evento">Intensidade</label>
+                <div class="wrapper-select campo-simulador">
+                  <select id="intensidade-evento">
+                    <option value="">Selecione a intensidade...</option>
+                    <option value="baixa">🟢 Baixa — Risco Controlado</option>
+                    <option value="media">🟡 Média — Risco Moderado</option>
+                    <option value="alta">🔴 Alta — Risco Severo</option>
+                    <option value="extrema">⚫ Extrema — Risco Crítico Nacional</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="campo-grupo">
+                <label class="campo-rotulo" for="populacao-afetada">Escala Populacional</label>
+                <div class="wrapper-select campo-simulador">
+                  <select id="populacao-afetada">
+                    <option value="">Selecione a escala...</option>
+                    <option value="rural">🏡 Rural (&lt; 50 mil hab.)</option>
+                    <option value="municipio">🏙️ Município (50k–500k hab.)</option>
+                    <option value="regional">🗺️ Regional (500k–2M hab.)</option>
+                    <option value="estadual">📍 Estadual (2M–10M hab.)</option>
+                    <option value="nacional">🌎 Nacional (&gt; 10M hab.)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="campo-grupo">
+                <label class="campo-rotulo" for="regiao-simulacao">Região (opcional)</label>
+                <div class="campo-simulador">
+                  <input type="text" id="regiao-simulacao" placeholder="Ex: Manaus, Amazonas">
+                </div>
+              </div>
+
+              <button id="btn-simular" class="botao" disabled>
+                ⚡ Executar Simulação
+              </button>
+
+              <button id="btn-limpar" class="botao-secundario" style="width:100%;justify-content:center">
+                🗑️ Limpar Resultados
+              </button>
+
+            </form>
+          </div>
+
+          <!-- Histórico -->
+          <div class="card-glass" style="margin-top:24px">
+            <h4 style="font-family:var(--fonte-titulo);font-size:0.85rem;color:var(--cor-azul-claro);margin-bottom:16px;letter-spacing:0.05em">📋 Histórico de Simulações</h4>
+            <div id="historico-simulacoes">
+              <p style="color:var(--cor-texto-suave);font-size:0.85rem;text-align:center;padding:20px">Nenhuma simulação realizada.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resultado -->
+        <div class="card-glass" id="resultado-simulacao">
+          <div class="placeholder-resultado">
+            <span>🛰️</span>
+            <p>Configure os parâmetros e clique em <strong>Executar Simulação</strong> para ver a análise detalhada com dados orbitais e recomendações de ação preventiva.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="rodape">
+    <div class="rodape-base">
+      <p>© 2026 OrbitaSafe — Simulador de Cenários de Risco</p>
+      <p>Projeções baseadas em modelos estatísticos — uso acadêmico.</p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/script.js"></script>
+  <script src="../assets/js/simulador.js"></script>
+</body>
+</html>
