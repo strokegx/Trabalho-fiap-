@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OrbitaSafe | Monitoramento Orbital Inteligente</title>
+
+  <!-- Fontes externas -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@300;400;500;600&display=swap">
+
+  <!-- Estilos da aplicação -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════
+       LOADER — Tela de carregamento inicial
+  ═══════════════════════════════════════════════════════ -->
+  <div id="loader">
+    <span class="loader-logo">🛰 ORBITASAFE</span>
+    <div class="loader-ring"></div>
+    <span class="loader-sub">Inicializando sistemas orbitais…</span>
+  </div>
+
+  <!-- Canvas de fundo animado (estrelas) -->
+  <canvas id="stars"></canvas>
+
+  <!-- ═══════════════════════════════════════════════════════
+       HEADER — Logotipo e navegação principal
+  ═══════════════════════════════════════════════════════ -->
+  <header>
+    <a class="logo" href="#">
+      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="16" cy="16" r="5"/>
+        <ellipse cx="16" cy="16" rx="14" ry="6" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        <ellipse cx="16" cy="16" rx="14" ry="6" fill="none" stroke="currentColor" stroke-width="1.8" transform="rotate(60 16 16)"/>
+        <ellipse cx="16" cy="16" rx="14" ry="6" fill="none" stroke="currentColor" stroke-width="1.8" transform="rotate(120 16 16)"/>
+      </svg>
+      OrbitaSafe
+    </a>
+    <nav>
+      <button class="active" onclick="showPage('home', this)">Início</button>
+      <button onclick="showPage('monitoring', this)">Monitoramento</button>
+      <button onclick="showPage('simulator', this)">Simulador</button>
+      <button onclick="showPage('dashboard', this)">Dashboard</button>
+    </nav>
+  </header>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       PÁGINA: HOME
+  ═══════════════════════════════════════════════════════ -->
+  <div id="page-home" class="page active">
+
+    <!-- Hero principal -->
+    <section class="hero">
+      <div class="hero-rings" aria-hidden="true">
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+      </div>
+      <div class="hero-content">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          Monitoramento Orbital Ativo
+        </div>
+        <h1>Preveja desastres<br>antes que aconteçam</h1>
+        <p>O OrbitaSafe integra redes de satélites, inteligência artificial e análise climática para identificar riscos ambientais e emitir alertas preventivos em tempo real.</p>
+        <div class="btn-group">
+          <button class="btn btn-primary" onclick="showPage('monitoring', document.querySelectorAll('nav button')[1])">
+            🛰️ Iniciar Monitoramento
+          </button>
+          <button class="btn btn-secondary" onclick="showPage('dashboard', document.querySelectorAll('nav button')[3])">
+            📊 Ver Dashboard
+          </button>
+        </div>
+        <div class="stats-row">
+          <div class="stat">
+            <span class="stat-val" data-count="42">0</span>
+            <span class="stat-label">Satélites Integrados</span>
+          </div>
+          <div class="stat">
+            <span class="stat-val" data-count="12584">0</span>
+            <span class="stat-label">Alertas Emitidos</span>
+          </div>
+          <div class="stat">
+            <span class="stat-val" data-count="4800000">0</span>
+            <span class="stat-label">Pessoas Protegidas</span>
+          </div>
+          <div class="stat">
+            <span class="stat-val" data-count="96" data-suffix="%">0</span>
+            <span class="stat-label">Precisão da IA</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- O Problema que Resolvemos -->
+    <section class="section section--alt">
+      <div class="section-header">
+        <h2>O Problema que Resolvemos</h2>
+        <p>O Brasil é um dos países mais vulneráveis a desastres climáticos. Cada ano, eventos extremos geram bilhões em prejuízos e deslocam milhares de famílias.</p>
+        <div class="deco-line"></div>
+      </div>
+      <div class="grid-4">
+        <div class="card">
+          <span class="card-icon">💸</span>
+          <span class="card-val">R$ 38B</span>
+          <span class="card-desc">Prejuízo anual por desastres naturais no Brasil</span>
+        </div>
+        <div class="card">
+          <span class="card-icon">👥</span>
+          <span class="card-val">8,2M</span>
+          <span class="card-desc">Pessoas afetadas anualmente por eventos climáticos</span>
+        </div>
+        <div class="card">
+          <span class="card-icon">⏱️</span>
+          <span class="card-val">72h</span>
+          <span class="card-desc">Janela de antecedência que o OrbitaSafe oferece</span>
+        </div>
+        <div class="card">
+          <span class="card-icon">📉</span>
+          <span class="card-val">40%</span>
+          <span class="card-desc">Redução potencial de danos com alertas preventivos</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Como o OrbitaSafe Funciona -->
+    <section class="section">
+      <div class="section-header">
+        <h2>Como o OrbitaSafe Funciona</h2>
+        <p>Da órbita à ação preventiva, nossa arquitetura integra dados espaciais, IA e protocolos de emergência.</p>
+        <div class="deco-line"></div>
+      </div>
+      <div class="card steps">
+        <div class="step">
+          <span class="step-num">01</span>
+          <h3>Coleta Orbital</h3>
+          <p>Satélites Sentinel-2, Landsat-9 e GOES-16 capturam imagens e dados atmosféricos em tempo real.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <h3>Transmissão</h3>
+          <p>Dados enviados a estações terrestres com latência menor que 5 minutos por passagem orbital.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <h3>Análise por IA</h3>
+          <p>Modelos de deep learning classificam riscos com 96% de precisão e geram previsões até 72h.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">04</span>
+          <h3>Alerta Preventivo</h3>
+          <p>Autoridades e população recebem alertas multicanal antes que o evento se consolide.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tecnologias da Economia Espacial -->
+    <section class="section section--alt">
+      <div class="section-header">
+        <h2>Tecnologias da Economia Espacial</h2>
+        <div class="deco-line"></div>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <span class="card-icon">🌍</span>
+          <h3>Sensoriamento Remoto</h3>
+          <p>Imagens multiespectrais para detectar variações de vegetação, temperatura e umidade.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">🤖</span>
+          <h3>IA & Machine Learning</h3>
+          <p>Redes neurais treinadas em décadas de dados históricos de desastres naturais.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">📡</span>
+          <h3>Comunicação Satelital</h3>
+          <p>Links de banda Ka para transmissão de dados de alta resolução com baixa latência.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">🌦️</span>
+          <h3>Modelagem Climática</h3>
+          <p>Simulações NWP integradas com dados orbitais para previsões hiperlocais.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">📍</span>
+          <h3>Geolocalização Orbital</h3>
+          <p>Precisão sub-métrica para identificação de áreas de risco com resolução de 10m.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">☁️</span>
+          <h3>Computação em Nuvem</h3>
+          <p>Infraestrutura elástica processa terabytes de dados orbitais em minutos.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Alinhamento com os ODS da ONU -->
+    <section class="section">
+      <div class="section-header">
+        <h2>Alinhamento com os ODS da ONU</h2>
+        <div class="deco-line"></div>
+      </div>
+      <div class="ods-grid">
+        <div class="ods-card">
+          <span class="ods-num">ODS 2</span>
+          <h3>Fome Zero e Agricultura Sustentável</h3>
+          <p>Proteção de lavouras com alertas de seca e chuvas excessivas.</p>
+        </div>
+        <div class="ods-card">
+          <span class="ods-num">ODS 9</span>
+          <h3>Indústria, Inovação e Infraestrutura</h3>
+          <p>Tecnologia espacial aplicada à segurança de infraestrutura crítica.</p>
+        </div>
+        <div class="ods-card">
+          <span class="ods-num">ODS 11</span>
+          <h3>Cidades e Comunidades Sustentáveis</h3>
+          <p>Proteção de centros urbanos com mapeamento de riscos em alta resolução.</p>
+        </div>
+        <div class="ods-card">
+          <span class="ods-num">ODS 13</span>
+          <h3>Ação contra a Mudança do Clima</h3>
+          <p>Monitoramento contínuo de indicadores climáticos e eventos extremos.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="logo">🛰 OrbitaSafe</div>
+      <p>MVP — Monitoramento Orbital Inteligente para Prevenção de Desastres</p>
+      <p class="footer-copyright">© 2026 OrbitaSafe</p>
+    </footer>
+
+  </div><!-- /page-home -->
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       PÁGINA: MONITORAMENTO
+  ═══════════════════════════════════════════════════════ -->
+  <div id="page-monitoring" class="page">
+    <section class="section">
+      <div class="section-header">
+        <div class="badge" style="margin: 0 auto 16px; display: inline-flex;">
+          <span class="badge-dot"></span> Sistema Online
+        </div>
+        <h2>Monitoramento em Tempo Real</h2>
+        <p>Status de todos os estados brasileiros com dados de satélite e análise de IA. Clique em um estado para detalhes.</p>
+        <div class="deco-line"></div>
+      </div>
+
+      <div class="monitoring-layout">
+        <!-- Grade de estados -->
+        <div>
+          <div id="state-grid" class="state-grid"></div>
+          <div id="state-detail"></div>
+        </div>
+
+        <!-- Feed de alertas ao vivo -->
+        <div>
+          <div class="card live-alerts-card">
+            <h3>⚡ ALERTAS AO VIVO</h3>
+            <div id="alert-feed" class="alert-feed"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div><!-- /page-monitoring -->
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       PÁGINA: SIMULADOR
+  ═══════════════════════════════════════════════════════ -->
+  <div id="page-simulator" class="page">
+    <section class="section">
+      <div class="section-header">
+        <h2>Simulador de Cenários</h2>
+        <p>Configure os parâmetros e veja a projeção de impacto, métricas de resposta e ações preventivas recomendadas.</p>
+        <div class="deco-line"></div>
+      </div>
+
+      <div class="sim-layout">
+
+        <!-- Formulário de parâmetros -->
+        <div class="sim-form">
+          <h3>⚙️ Parâmetros da Simulação</h3>
+
+          <div class="field">
+            <label for="evt-type">Tipo de Evento</label>
+            <select id="evt-type">
+              <option value="">— Selecione —</option>
+              <option value="enchente">🌊 Enchente</option>
+              <option value="seca">☀️ Seca</option>
+              <option value="queimada">🔥 Queimada</option>
+              <option value="deslizamento">⛰️ Deslizamento</option>
+              <option value="tempestade">⚡ Tempestade Severa</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="evt-intensity">Intensidade</label>
+            <select id="evt-intensity">
+              <option value="">— Selecione —</option>
+              <option value="baixa">Baixa</option>
+              <option value="media">Média</option>
+              <option value="alta">Alta</option>
+              <option value="extrema">Extrema — Crítico Nacional</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="evt-pop">Escala Populacional</label>
+            <select id="evt-pop">
+              <option value="">— Selecione —</option>
+              <option value="rural">Rural (até 50 mil hab.)</option>
+              <option value="pequena">Cidade Pequena (50–200 mil)</option>
+              <option value="media">Cidade Média (200–800 mil)</option>
+              <option value="grande">Grande Cidade (800 mil+)</option>
+              <option value="metropolitana">Metrópole (2M+)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="evt-region">Região (opcional)</label>
+            <input type="text" id="evt-region" placeholder="Ex: Manaus, Amazonas">
+          </div>
+
+          <button id="btn-simulate" class="btn-sim" disabled>🛰️ SIMULAR CENÁRIO</button>
+          <button id="btn-clear-sim" class="btn-clear">Limpar</button>
+        </div>
+
+        <!-- Painel de resultados -->
+        <div id="sim-result" class="result-panel">
+          <div class="result-placeholder">
+            <span>🛰️</span>
+            <p>Configure os parâmetros e clique em <strong>Simular</strong> para ver os resultados.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div><!-- /page-simulator -->
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       PÁGINA: DASHBOARD
+  ═══════════════════════════════════════════════════════ -->
+  <div id="page-dashboard" class="page">
+    <section class="section">
+      <div class="section-header">
+        <h2>Dashboard Estratégico</h2>
+        <p id="dash-clock" style="font-family: var(--font-title); font-size: .75rem; color: var(--muted); letter-spacing: .08em;"></p>
+        <div class="deco-line"></div>
+      </div>
+
+      <!-- Métricas principais -->
+      <div class="metrics-row" id="dash-metrics">
+        <div class="met-card">
+          <span class="met-val" id="m-alertas">380</span>
+          <span class="met-key">Alertas Emitidos (Dez)</span>
+        </div>
+        <div class="met-card">
+          <span class="met-val" id="m-eventos">112</span>
+          <span class="met-key">Eventos Monitorados</span>
+        </div>
+        <div class="met-card">
+          <span class="met-val" id="m-cobertura">98%</span>
+          <span class="met-key">Cobertura Orbital</span>
+        </div>
+        <div class="met-card">
+          <span class="met-val" id="m-precisao">96%</span>
+          <span class="met-key">Precisão do Modelo</span>
+        </div>
+        <div class="met-card">
+          <span class="met-val" id="m-sats">42</span>
+          <span class="met-key">Satélites Ativos</span>
+        </div>
+      </div>
+
+      <!-- Gráficos -->
+      <div class="charts-row">
+        <div class="chart-card">
+          <h3>📊 Alertas Mensais</h3>
+          <canvas id="chart-alerts" height="260"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>📈 Cobertura & Precisão (%)</h3>
+          <canvas id="chart-coverage" height="260"></canvas>
+        </div>
+      </div>
+
+      <!-- Tabela de situação por região -->
+      <div class="table-card">
+        <h3>🗺️ Situação por Região</h3>
+        <table id="dash-table"></table>
+      </div>
+
+      <!-- Feed de alertas do dashboard -->
+      <div class="card dash-alerts-card">
+        <h3>⚡ FEED DE ALERTAS — PAINEL</h3>
+        <div id="dash-alerts" class="alert-feed"></div>
+      </div>
+
+    </section>
+  </div><!-- /page-dashboard -->
+
+
+  <!-- Scripts da aplicação (ao final do body para performance) -->
+  <script src="assets/js/script.js"></script>
+
+</body>
+</html>
